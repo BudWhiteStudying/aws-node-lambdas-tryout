@@ -100,7 +100,6 @@ Outputs:
   Hello2FunctionIamRole:
     Description: "Implicit IAM Role created for Hello 2 function"
     Value: !GetAtt Hello2FunctionRole.Arn
-
 ```
 It declares (among all things):
 - global properties that apply to all functions (in this case I set extra-permissive CORS headers on all resources that will be exposed by the API Gateway)
