@@ -29,6 +29,7 @@ Each Lambda Function is then contained in its own directory, and constitutes a s
 ### The `template.yaml` file
 The `template.yaml` file looks like this:
 ```
+
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Sample set of NodeJS functions
@@ -45,7 +46,7 @@ Globals:
       AllowOrigin: "'*'"
 
 Resources:
-  MyFunction1:
+  Hello1Function:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello-function-1
@@ -61,7 +62,7 @@ Resources:
           Properties:
             Path: /hello1
             Method: get
-  MyFunction2:
+  Hello2Function:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello-function-2
@@ -158,6 +159,15 @@ Finally, hot reload is obtained through the following steps:
 
 Each time a `.ts` file is updated, `tsc` will immediately transpile it into a fresh `.js` file; each time this happens, `nodemon` will notice the change and will trigger a new `sam build`; the `sam local start-api` will then serve the updated content, since a `sam build` was triggered.
 
+### Deployment
+I was able to deploy the whole thing to AWS through the following commands
+```
+MY_BUCKET=some-bucket
+REGION=us-east-1
+MY_STACK_NAME=some-stack
+sam build && sam package --output-template-file packaged.yaml --s3-bucket $MY_BUCKET --region $REGION && aws cloudformation deploy --region $REGION --template-file packaged.yaml --stack-name $MY_STACK_NAME --capabilities CAPABILITY_IAM
+```
+
 ### Next steps
-This is clearly a rough method, probably burning a LOT of resources for a rather simple task. It could be worthwhile experimenting with Webpack instead of using
+This is clearly a rough method for obtaining hot reload, probably burning a LOT of resources for a rather simple task. It could be worthwhile experimenting with Webpack instead of using
 nodemon.

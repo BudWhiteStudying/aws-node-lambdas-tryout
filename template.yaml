@@ -15,7 +15,7 @@ Globals:
       AllowOrigin: "'*'"
 
 Resources:
-  MyFunction1:
+  Hello1Function:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello-function-1
@@ -31,7 +31,7 @@ Resources:
           Properties:
             Path: /hello1
             Method: get
-  MyFunction2:
+  Hello2Function:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello-function-2
