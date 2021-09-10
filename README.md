@@ -160,5 +160,5 @@ Finally, hot reload is obtained through the following steps:
 Each time a `.ts` file is updated, `tsc` will immediately transpile it into a fresh `.js` file; each time this happens, `nodemon` will notice the change and will trigger a new `sam build`; the `sam local start-api` will then serve the updated content, since a `sam build` was triggered.
 
 ### Next steps
-This is clearly a rough method, probablly burning a LOT of resources for a rather simple task. It could be worthwhile experimenting with Webpack instead of using
+This is clearly a rough method, probably burning a LOT of resources for a rather simple task. It could be worthwhile experimenting with Webpack instead of using
 nodemon.
