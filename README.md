@@ -16,14 +16,14 @@ Each Lambda Function is then contained in its own directory, and constitutes a s
 │  ├─ package.json
 │  ├─ tsconfig.json
 │  └─ node_modules
-├─ hello-function-2
-│  ├─ src
-│  │  └─ index.ts
-│  ├─ output
-│  │  └─ index.js
-│  ├─ package.json
-│  ├─ tsconfig.json
-│  └─ node_modules
+└─ hello-function-2
+   ├─ src
+   │  └─ index.ts
+   ├─ output
+   │  └─ index.js
+   ├─ package.json
+   ├─ tsconfig.json
+   └─ node_modules
 ```
 
 ### The `template.yaml` file
