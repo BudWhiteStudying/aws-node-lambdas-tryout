@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: REST Resources for PewPew Arena, on aNodeJS runtime
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 20
+  Api:
+    Cors:
+      AllowCredentials: false
+      AllowHeaders: "'*'"
+      AllowMethods: "'GET,PUT,POST'"
+      AllowOrigin: "'*'"
+
+Resources:
+#  ApiGatewayApi:
+#    Type: AWS::Serverless::Api
+#    Properties:
+#      StageName: Prod
+#      Cors:
+#        AllowMethods: "'POST, GET, PUT'"
+#        AllowHeaders: "'X-Forwarded-For'"
+#        AllowOrigin: "'www.example.com'"
+#        MaxAge: "'600'"
+#        AllowCredentials: true
+  TryoutFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/characters/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: tryout
+      Handler: output/index.handler
+      Runtime: nodejs12.x
+      MemorySize: 512
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE # this is where i put db props maybe
+      Events:
+        Characters:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /tryout
+            Method: get
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  TryoutApi:
+    Description: "API Gateway endpoint URL for Prod stage for Tryout function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/tryout/"
+  TryoutFunction:
+    Description: "Tryout Lambda Function ARN"
+    Value: !GetAtt TryoutFunction.Arn
+  TryoutFunctionIamRole:
+    Description: "Implicit IAM Role created for Tryout function"
+    Value: !GetAtt TryoutFunctionRole.Arn
