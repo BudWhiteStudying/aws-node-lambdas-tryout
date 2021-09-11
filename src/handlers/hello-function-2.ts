@@ -1,24 +1,37 @@
 import { APIGatewayProxyResult } from 'aws-lambda';
-import mysql = require('mysql');
+import mariadb = require('mariadb');
 
-const connection = mysql.createConnection({
+const SOME_SQL_QUERY = 'SELECT * FROM PEWPEW_ARENA_APP.CHARACTER';
+
+const connectionPool = mariadb.createPool({
   host: "host",
   user: "user",
-  password: "password"
+  password: "password",
+  connectionLimit: 10    //TODO: not sure how to handle this
 });
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
     console.log("About to connect");
     return new Promise((resolve,reject)=>{
-        connection.connect(function(err : any) {
-            if (err) {
-                console.error(`Problems! ${err}`);
+        connectionPool.getConnection()
+        .then((connection)=>{
+            connection.query(SOME_SQL_QUERY)
+            .then((result)=>{
+                console.debug(`All is well, got result: ${result}`);
+                resolve({ body: JSON.stringify({ message: result }), statusCode: 200 });
+            })
+            .catch((err)=>{
+                console.error(`Problems executing query: ${err}`);
                 resolve({ body: JSON.stringify({ message: err }), statusCode: 500 });
-            }
-            else {
-                console.log("Connected!");
-                resolve({ body: JSON.stringify({ message: 'Hello F2?' }), statusCode: 200 });
-            }
-          });
+            })
+            .finally(()=>{
+                console.debug("Closing connection in the 'finally' block");
+                connection.end();
+            });
+        })
+        .catch((err)=>{
+            console.error(`Not connected: ${err}`);
+            resolve({ body: JSON.stringify({ message: err }), statusCode: 500 });
+        });
     });
 };
