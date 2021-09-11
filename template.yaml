@@ -38,6 +38,11 @@ Resources:
       Handler: helloFunction2.handler
       Runtime: nodejs12.x
       MemorySize: 512
+#      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+#        Variables:
+#          DATABASE_HOST: ""
+#          DATABASE_USER: ""
+#          DATABASE_PASSWORD: ""
       Events:
         Characters:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

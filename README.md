@@ -169,6 +169,5 @@ MY_STACK_NAME=some-stack
 npx webpack && sam package --output-template-file packaged.yaml --s3-bucket $MY_BUCKET --region $REGION && aws cloudformation deploy --region $REGION --template-file packaged.yaml --stack-name $MY_STACK_NAME --capabilities CAPABILITY_IAM
 ```
 
-### Next steps
-This is clearly a rough method for obtaining hot reload, probably burning a LOT of resources for a rather simple task. It could be worthwhile experimenting with Webpack instead of using
-nodemon.
+### Miscellaneous
+Although out of scope, this little piece of code demonstrates the connection to a database as well. Credentials are taken from environment variables (through the `process.env` handler). This is kind of ugly (the password should be secured the AWS way), and also has one little problem. On AWS, env variables are defined on the Lambda console, which is nice because you can write them there and only authorized users will be able to enter the console and read them. When working locally though you need a way to pass your own variables. `sam local start-api` has the perfect option for that, namely `-n`, which allows you to pass in your own variables in a JSON file e.g. `sam local start-api -n env.json`. Unfortunately the `-n` flag actually only *overrides* existing properties i.e. whatever you write in your `env.json` file will have *no effect* if properties with the same key are not defined in the `template.yaml` file. Not only this is ugly, but it's also *very* inconvenient, since this means that at every deploy you'll be overriding the env variables you defined in the Lambda console. I currently don't know how to do this differently though.
