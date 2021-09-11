@@ -1,7 +1,7 @@
 {
     "Hello2Function" : {
-        "DATABASE_HOST" : "localhost",
-        "DATABASE_USER" : "db-user",
+        "DATABASE_HOST" : "asdas",
+        "DATABASE_USER" : "db-asdsa",
         "DATABASE_PASSWORD" : "db-password"
     }
 }
