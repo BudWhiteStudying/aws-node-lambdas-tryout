@@ -6,7 +6,9 @@ Description: Sample set of NodeJS functions
 # Enabling CORS just in case (this is bad for production)
 Globals:
   Function:
-    Timeout: 20
+    CodeUri: build/
+    Runtime: nodejs12.x
+    Timeout: 300
   Api:
     Cors:
       AllowCredentials: false
@@ -18,8 +20,7 @@ Resources:
   Hello1Function:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: hello-function-1
-      Handler: output/index.handler
+      Handler: helloFunction1.handler
       Runtime: nodejs12.x
       MemorySize: 512
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
@@ -34,13 +35,14 @@ Resources:
   Hello2Function:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: hello-function-2
-      Handler: output/index.handler
+      Handler: helloFunction2.handler
       Runtime: nodejs12.x
       MemorySize: 512
-      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
-        Variables:
-          PARAM1: VALUE
+#      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+#        Variables:
+#          DATABASE_HOST: ""
+#          DATABASE_USER: ""
+#          DATABASE_PASSWORD: ""
       Events:
         Characters:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
